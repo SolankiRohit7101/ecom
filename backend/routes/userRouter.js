@@ -20,7 +20,15 @@ userRouter.post(
 );
 userRouter.post("/login", userLogin);
 userRouter.get("/logout", authorize, userLogout);
-userRouter.post("/profile", authorize, userProfile);
+userRouter.post(
+  "/profile",
+  authorize,
+  upload.fields([{ name: "avatar", maxCount: 1 }]),
+  userProfile
+);
 userRouter.get("/user", userData);
 
 export default userRouter;
+
+
+

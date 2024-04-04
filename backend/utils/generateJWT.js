@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 const generateJWT = async (res, user, statusCode, message) => {
   const { password: pass, ...userdata } = user._doc;
-  const { email, name, _id, role } = userdata;
-  const token = jwt.sign({ name, email, _id, role }, process.env.JWT_SECRET, {
+  const { email, username, _id, role } = userdata;
+  const token = jwt.sign({ username, email, _id, role }, process.env.JWT_SECRET, {
     expiresIn: "3d",
   });
   const decode = jwt.verify(token, process.env.JWT_SECRET);

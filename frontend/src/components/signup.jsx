@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 const Signup = () => {
   const dispatch = useDispatch();
-  const { error, loading } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
@@ -32,7 +32,6 @@ const Signup = () => {
     const formdata = new FormData(e.currentTarget);
     formdata.append("avatar", imageFile);
     const data = Object.fromEntries(formdata);
-    console.log(data);
     const res = await axios
       .post(
         "/api/v1/register",
@@ -59,7 +58,7 @@ const Signup = () => {
       })
       .catch((er) => {
         dispatch(signupFail(er.response.data));
-        toast.error(er?.response?.data?.message, {
+        toast.error(er.response?.data?.message, {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: false,
@@ -71,7 +70,7 @@ const Signup = () => {
         });
       });
   };
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     setImageFile(e.target.files[0]);
     setimageFileUrl(URL.createObjectURL(e.target.files[0]));
   };

@@ -26,7 +26,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(signupStart());
     const res = await axios
-      .post("/api/v1/login", { userData })
+      .post("/api/v1/login", { ...userData })
       .then(({ data }) => {
         dispatch(signupSuccess(data?.decode));
         toast.success(data?.message, {

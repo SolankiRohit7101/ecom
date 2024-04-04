@@ -7,10 +7,12 @@ import {
   DeleteProduct,
   GetAllProduct,
 } from "../controller/ProductController.js";
+import upload from "../middlewares/Multer.js";
 
 const ProductRouter = express.Router();
 ProductRouter.post(
-  "/product/add",
+  "/products/add",
+  upload.array("ProductImages[]", 10),
   authorize,
   CheckRole(rolesList.Admin, rolesList.SuperAdmin),
   AddProduct

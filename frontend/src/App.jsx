@@ -6,6 +6,8 @@ import Login from "./components/login";
 import Signup from "./components/signup";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AddProduct from "./Admin/AddProduct";
+import ProductDetail from "./components/ProductDetail";
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,6 +32,10 @@ function App() {
         >
           Explore Product
         </button>
+      ) : location.pathname === "/addproduct" ? (
+        <h1 className="text-center text-black/40 bg-transparent text-2xl">
+          Add Product
+        </h1>
       ) : (
         <Nav />
       )}
@@ -38,7 +44,15 @@ function App() {
         <Route path="/" element={<Body />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
+
+      <div className="footer min-w-full h-14">
+        <h1 className="text-3xl bg-indigo-600 h-full text-white text-center ">
+          Thanks for visting
+        </h1>
+      </div>
     </>
   );
 }

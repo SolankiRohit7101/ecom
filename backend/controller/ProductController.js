@@ -1,24 +1,36 @@
 import ProductModel from "../models/ProductModel.js";
 import UserModel from "../models/UserModel.js";
+import uploadCloudinary from "../utils/Cloudinary.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const AddProduct = async (req, res, next) => {
-  const { ProductName, ProductPrice, ProductDescription } = req.body;
+  const { ProductName, ProductPrice, ProductDescription, stock } = req.body;
+  const imageLocalPath = [];
+  req.files?.map((obj) => {
+    imageLocalPath.push(obj.path);
+  });
   if (!ProductName || !ProductPrice || !ProductDescription)
     return next(new ErrorHandler(400, "Please Provide All Fields."));
   const isProduct = await ProductModel.findOne({ ProductName });
   if (isProduct)
     return next(new ErrorHandler(400, "Product Name is already in the db"));
   try {
+    let images = [];
+    for (let i = 0; i < imageLocalPath.length; i++) {
+      const image = await uploadCloudinary(imageLocalPath[i], "product");
+      images.push(image.url);
+    }
     const product = await ProductModel({
       ProductName,
       ProductPrice,
       ProductDescription,
+      stock,
       AddedBy: req.user,
+      ProductImages: images,
     });
     await product.save();
     return res
-      .json({ success: true, message: "product added Successfully" })
+      .json({ success: true, message: "product added Successfully", product })
       .status(201);
   } catch (error) {
     return next(error);
@@ -26,11 +38,18 @@ export const AddProduct = async (req, res, next) => {
 };
 
 export const GetAllProduct = async (req, res, next) => {
-  const Products = await ProductModel.find()
-    .select("-__v")
-    .select("-timestamps");
-  console.log(Products);
-  res.json(Products);
+  try {
+    const products = await ProductModel.find()
+      .select("-__v")
+      .select("-timestamps");
+    return res.json({
+      success: true,
+      message: "products data fetch successfully",
+      products,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const DeleteProduct = async (req, res, next) => {

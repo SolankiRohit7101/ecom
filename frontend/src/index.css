@@ -2,3 +2,11 @@
     @tailwind components;
     @tailwind utilities;
 
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    :root {
+        @apply w-full h-full bg-slate-300;
+    }

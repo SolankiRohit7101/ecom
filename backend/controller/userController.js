@@ -3,7 +3,7 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import UserModel from "../models/UserModel.js";
 import bcrypt from "bcryptjs";
 import generateJWT from "../utils/generateJWT.js";
-import uploadCloudinary from "../utils/Cloudinary.js";
+import uploadCloudinary, { deleteCloudinary } from "../utils/Cloudinary.js";
 export const userRegister = async (req, res, next) => {
   const { username, email, password /* ,animeList  */ } = req.body;
   const isValidData = SignUpSchema._parse({
@@ -20,7 +20,8 @@ export const userRegister = async (req, res, next) => {
         );
       }
       const hashPassword = await bcrypt.hash(password, 8);
-      const avatarLocalPath = req.files?.avatar[0]?.path;
+      const avatarLocalPath = req?.files?.avatar[0]?.path;
+      console.log(avatarLocalPath);
       if (!avatarLocalPath) {
         return next(new ErrorHandler(400, "Avatar is required"));
       }
@@ -47,7 +48,7 @@ export const userRegister = async (req, res, next) => {
 };
 
 export const userLogin = async (req, res, next) => {
-  const { email, password } = req.body.userData;
+  const { email, password } = req.body;
   const isValidData = LoginSchema._parse({ email, password });
   if (!isValidData.issues) {
     try {
@@ -78,19 +79,29 @@ export const userLogout = (req, res, next) => {
 };
 
 export const userProfile = async (req, res, next) => {
-  const { name, animeList } = req.body;
-
+  const { username, bio } = req.body;
+  const userData = await UserModel.findOne({ _id: req.user }).select(
+    "-password -email "
+  );
+  const imageurl = userData.avatar.url.split("/");
+  const imageName = imageurl[imageurl.length - 1].split(".")[0];
+  const avatarLocalPath = req?.files?.avatar[0]?.path;
+  await deleteCloudinary(imageName);
+  const avatar = await uploadCloudinary(avatarLocalPath);
   const user = await UserModel.findByIdAndUpdate(
     req.user,
     {
-      name,
-      animeList,
+      username,
+      bio,
+      avatar: {
+        public_id: avatar.asset_id,
+        url: avatar.url,
+      },
     },
     {
       returnDocument: "after",
     }
   );
-
   await user.save();
   generateJWT(res, user, 201, "successfully Profile Updated.");
 };
