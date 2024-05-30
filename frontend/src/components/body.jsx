@@ -32,7 +32,7 @@ const Body = () => {
 
     <div className="w-full h-full ">
       <div className="mx-2 sm:mx-6 md:mx-14  ">
-        <div className="grid grid-cols-4  gap-5 md:gap-10 mt-10 ">
+        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-4  gap-5 md:gap-10  sm:my-3 md:my-7 ">
           {products.map((product) => (
             <ProductCard product={product} key={product._id} />
           ))}
@@ -99,7 +99,7 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   return (
     <div
-      className="w-full h-[400px]   p-2 md:p-5   border shadow-xl rounded-t-xl  "
+      className="w-full h-[420px]   p-2 md:p-5   border shadow-xl rounded-t-xl  "
       onClick={() => navigate(`/product/${product._id}`)}
     >
       <img
@@ -108,10 +108,7 @@ const ProductCard = ({ product }) => {
         className="w-full h-[300px] rounded-lg bg-white"
       />
       <div className="text  grid grid-cols-2  p-4">
-        <h1 className="text-lg  truncate col-span-2 ">
-          {" "}
-          {product.ProductName}
-        </h1>
+        <h1 className="text-lg  truncate col-span-2 ">{product.ProductName}</h1>
         <h1 className="text-lg"> Price : {product.ProductPrice}</h1>
         <h1 className="text-lg"> Stock : {product.stock}</h1>
       </div>

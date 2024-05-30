@@ -25,7 +25,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(signupStart());
-    const res = await axios
+    await axios
       .post("/api/v1/login", { ...userData })
       .then(({ data }) => {
         dispatch(signupSuccess(data?.decode));

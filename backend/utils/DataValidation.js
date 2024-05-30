@@ -1,9 +1,10 @@
-import { array, email, minLength, object, string } from "valibot";
+import { array, email, minLength, object, string, endsWith } from "valibot";
 
 export const SignUpSchema = object({
   email: string("Your email must be a string.", [
     minLength(1, "Please enter your email."),
     email("The email address is badly formatted."),
+    endsWith("@gmail.com", "please resgister with gmail account only"),
   ]),
   password: string("Your password must be a string.", [
     minLength(1, "Please enter your password."),

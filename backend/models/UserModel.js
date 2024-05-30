@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { string } from "valibot";
+import { contactUs } from "../controller/userController.js";
 
 const userSchame = new mongoose.Schema(
   {
@@ -39,6 +41,22 @@ const userSchame = new mongoose.Schema(
   }
 );
 
+const contactSchame = new mongoose.Schema({
+  name: {
+    type: String,
+    require: true,
+  },
+  email: {
+    type: String,
+    require: true,
+  },
+  message: {
+    type: String,
+    require: true,
+  },
+});
+
+export const contactModel = new mongoose.model("Contact", contactSchame);
 const UserModel = new mongoose.model("User", userSchame);
 
 export default UserModel;

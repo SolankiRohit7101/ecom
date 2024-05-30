@@ -32,7 +32,7 @@ const Signup = () => {
     const formdata = new FormData(e.currentTarget);
     formdata.append("avatar", imageFile);
     const data = Object.fromEntries(formdata);
-    const res = await axios
+    await axios
       .post(
         "/api/v1/register",
         { ...data },
@@ -423,7 +423,7 @@ const Signup = () => {
                 </label>
                 <input
                   onChange={handleChange}
-                  type="text"
+                  type="email"
                   id="email"
                   name="email"
                   className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"

@@ -1,7 +1,50 @@
-import React from "react";
-import Nav from "./nav";
-
+import { useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Contact = () => {
+  const [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setContactData({ ...contactData, [name]: value });
+  };
+
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post("/api/v1/contact", { ...contactData })
+      .then(({ data }) => {
+        toast.success(data?.message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
   return (
     <>
       <div className="container my-12 mx-auto px-2 md:px-4">
@@ -13,7 +56,10 @@ const Contact = () => {
           </div>
 
           <div className="flex flex-wrap">
-            <form className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
+            <form
+              className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6"
+              onSubmit={handleSubmit}
+            >
               <div className="mb-3 w-full">
                 <label
                   className="block font-medium mb-[2px] text-teal-700"
@@ -25,7 +71,9 @@ const Contact = () => {
                   type="text"
                   className="px-2 py-2 border w-full outline-none rounded-md"
                   id="exampleInput90"
+                  name="name"
                   placeholder="Name"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -40,7 +88,9 @@ const Contact = () => {
                   type="email"
                   className="px-2 py-2 border w-full outline-none rounded-md"
                   id="exampleInput90"
+                  name="email"
                   placeholder="Enter your email address"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -53,13 +103,15 @@ const Contact = () => {
                 </label>
                 <textarea
                   className="px-2 py-2 border rounded-[5px] w-full outline-none"
-                  name=""
-                  id=""
+                  name="message"
+                  onChange={handleChange}
+                  id="message"
+                  placeholder="How can we help you ?"
                 ></textarea>
               </div>
 
               <button
-                type="button"
+                type="submit"
                 className="mb-6 inline-block w-full rounded bg-teal-400 px-6 py-2.5 font-medium uppercase leading-normal text-white hover:shadow-md hover:bg-teal-500"
               >
                 Send

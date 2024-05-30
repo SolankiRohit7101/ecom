@@ -6,6 +6,8 @@ import {
   AddProduct,
   DeleteProduct,
   GetAllProduct,
+  ProductAllReviews,
+  AddProductReview,
 } from "../controller/ProductController.js";
 import upload from "../middlewares/Multer.js";
 
@@ -24,5 +26,6 @@ ProductRouter.delete(
   CheckRole(rolesList.Admin, rolesList.SuperAdmin),
   DeleteProduct
 );
-
+ProductRouter.get("/:id", ProductAllReviews);
+ProductRouter.post("/comment/:productId", authorize, AddProductReview);
 export default ProductRouter;

@@ -2,7 +2,7 @@ import ProductModel from "../models/ProductModel.js";
 import UserModel from "../models/UserModel.js";
 import uploadCloudinary from "../utils/Cloudinary.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-
+import ReviewModle from "../models/ReviewsModel.js";
 export const AddProduct = async (req, res, next) => {
   const { ProductName, ProductPrice, ProductDescription, stock } = req.body;
   const imageLocalPath = [];
@@ -58,4 +58,36 @@ export const DeleteProduct = async (req, res, next) => {
   if (Product.AddedBy === req.user || req.roles === 7103) {
     res.json({ message: "success" });
   }
+};
+
+export const ProductAllReviews = async (req, res, next) => {
+  const { id } = req.params;
+  const pr = await ReviewModle.find({ product: id });
+
+  return res.json({
+    success: true,
+    message: "Reviews fetch successfully",
+    pr,
+  });
+};
+
+export const AddProductReview = async (req, res, next) => {
+  const { productId } = req.params;
+  const { comment, rating } = req.body;
+  const user = await UserModel.findOne({ _id: req.user });
+
+  console.log("here")
+  const review = await ReviewModle({
+    message: comment,
+    rating,
+    product: productId,
+    user: user.username,
+  });
+
+  await review.save();
+
+  res.json({
+    succesS: true,
+    message: "review added successfully",
+  });
 };

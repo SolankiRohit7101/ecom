@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = async () => {
-    const res = await axios
+    await axios
       .get("/api/v1/logout/")
       .then(({ data }) => {
         dispatch(signupSuccess(data?.decode));
@@ -29,6 +29,7 @@ const Nav = () => {
           progress: undefined,
           theme: "light",
         });
+        localStorage.removeItem("persist:Root");
         navigate("/");
       })
       .catch((er) => {
@@ -48,7 +49,7 @@ const Nav = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center p-4 border-2  border-b-stone-700  rounded-md">
+      <div className="flex justify-between items-center p-4 border-2 sticky top-0 z-50 bg-[#cbd5e1]  border-b-stone-700  rounded-md">
         <div>
           <img src={logo} className="w-32" alt="Logo"></img>
         </div>
@@ -67,7 +68,9 @@ const Nav = () => {
               </Link>
               {!currentUser && (
                 <li
-                  onClick={currentUser ? handleLogout : () => navigate("/login")}
+                  onClick={
+                    currentUser ? handleLogout : () => navigate("/login")
+                  }
                   className="cursor-pointer border-2 p-2 rounded-md hover:bg-green-400 transition-all border-black"
                 >
                   {currentUser ? "LogOut" : "Login"}
@@ -79,6 +82,13 @@ const Nav = () => {
             </ul>
           ) : (
             <ul className="sm:flex sm:gap-10 hidden ">
+              {currentUser && currentUser.role === 7103 && (
+                <Link to="/addproduct">
+                  <li className="cursor-pointer border-2 p-2 rounded-md hover:bg-green-400 transition-all border-black">
+                    Add Product
+                  </li>
+                </Link>
+              )}
               <Link to="/">
                 <li className="cursor-pointer border-2 p-2 rounded-md hover:bg-green-400 transition-all border-black">
                   Home
@@ -89,6 +99,13 @@ const Nav = () => {
                   Contact
                 </li>
               </Link>
+              {currentUser && (
+                <Link to="/profile">
+                  <li className="cursor-pointer border-2 p-2 rounded-md hover:bg-green-400 transition-all border-black">
+                    profile
+                  </li>
+                </Link>
+              )}
               <li
                 onClick={currentUser ? handleLogout : () => navigate("/login")}
                 className="cursor-pointer border-2 p-2 rounded-md hover:bg-green-400 transition-all border-black"

@@ -5,6 +5,7 @@ import {
   userProfile,
   userLogout,
   userData,
+  contactUs,
 } from "../controller/userController.js";
 import authorize from "../middlewares/Auth.js";
 import roles from "../utils/roles.js";
@@ -28,7 +29,6 @@ userRouter.post(
 );
 userRouter.get("/user", userData);
 
+userRouter.post("/contact", authorize, contactUs);
+
 export default userRouter;
-
-
-

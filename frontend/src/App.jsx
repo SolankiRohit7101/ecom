@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddProduct from "./Admin/AddProduct";
 import ProductDetail from "./components/ProductDetail";
+import ProtectedRoutes from "./Admin/ProtectedRoutes";
+import Profile from "./components/Profile";
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,8 +46,12 @@ function App() {
         <Route path="/" element={<Body />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/profile" element={<Profile />} />
+
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/addproduct" element={<AddProduct />} />
+        </Route>
       </Routes>
 
       <div className="footer min-w-full h-14">

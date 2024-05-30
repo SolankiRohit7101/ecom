@@ -3,19 +3,18 @@ import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Products",
+    ref: "Product",
     required: true,
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
     required: true,
   },
   rating: {
     type: Number,
     required: true,
   },
-  comment: {
+  message: {
     type: String,
     required: true,
   },

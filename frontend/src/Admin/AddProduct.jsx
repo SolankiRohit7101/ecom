@@ -83,7 +83,7 @@ const AddProduct = () => {
   return (
     <main className="w-full ">
       <div className="mx-3 sm:mx-8 md:10   ">
-        <div className=" grid grid-cols-3 gap-5 md:gap-8  h-full  w-full p-5 sm:p-5 md:p-8 place-items-center  ">
+        <div className=" grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8  h-full  w-full p-5 sm:p-5 md:p-8 place-items-center  ">
           <div className="col-span-2  flex min-h-full w-full max-h-full  flex-col gap-4 ">
             <div className="col-span-2 w-full  shadow-md ">
               <img
@@ -93,12 +93,12 @@ const AddProduct = () => {
               />
             </div>
             <div className="flex   h-[28vh] row-span-1 col-span-2  overflow-scroll  shadow-md object-scale-down gap-8  rounded-lg scroll-smooth ">
-              <div className="flex justify-start w-full  flex-row  gap-5 p-5">
+              <div className="flex justify-start w-full   flex-row  gap-5 p-5 ">
                 {ProductImagesUrl.length === 0 ? (
                   <img
                     src={NoImage}
                     alt=""
-                    className=" w-[250px] h-[170px] rounded-md border border-r opacity-55 object-contain self-center overflow-hidden"
+                    className=" w-[250px] h-[170px] rounded-md border  opacity-55 py-2 self-center overflow-hidden"
                     disabled
                   />
                 ) : (
@@ -108,7 +108,7 @@ const AddProduct = () => {
                       src={img}
                       alt=""
                       id={index}
-                      className=" min-w-[250px] h-[170px] rounded-md  border border-r object-cover self-center "
+                      className=" min-w-[250px] h-[170px] rounded-md  border py-2 self-center "
                       onClick={() => setBigPreviewImage(img)}
                     />
                   ))
@@ -117,7 +117,7 @@ const AddProduct = () => {
             </div>
           </div>
           <div className="form">
-            <div className="w-md max-w-md mx-auto">
+            <div className="sm:w-sm md:max-w-md mx-auto">
               <form
                 onSubmit={handleSubmit}
                 encType="multipart/form-data"
@@ -129,7 +129,7 @@ const AddProduct = () => {
                   id="ProductImages"
                   onChange={hanldeChangeImage}
                   multiple
-                  className="self-center"
+                  className="self-center w-full px-5"
                 />
                 <input
                   type="text"
