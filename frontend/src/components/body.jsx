@@ -15,7 +15,9 @@ const Body = () => {
   const getProducts = async () => {
     getProductsStart();
     const res = await axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/products`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/products`, {
+        withCredentials: true,
+      })
       .then(({ data }) => dispatch(getProductsSuccess(data.products)))
       .catch((error) => {
         console.log(error.res);

@@ -26,7 +26,11 @@ const Login = () => {
     e.preventDefault();
     dispatch(signupStart());
     await axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/login`, { ...userData })
+      .post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/login`,
+        { ...userData },
+        { withCredentials: true }
+      )
       .then(({ data }) => {
         dispatch(signupSuccess(data?.decode));
         toast.success(data?.message, {
