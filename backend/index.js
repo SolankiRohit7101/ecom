@@ -14,13 +14,23 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+const allowedOrigins = [
+  'https://ecom-lemon-five.vercel.app',
+  'https://ecom-jkgn276va-roht7101s-projects.vercel.app'
+];
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL, // specify the allowed origin
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+};
 
 dbConnect();
 
