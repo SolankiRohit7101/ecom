@@ -1,7 +1,7 @@
 import multer from "multer";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./Upload");
+    cb(null, "./");
   },
   filename: function (req, file, cb) {
     var temp_file_arr = file.originalname.split(".");

@@ -15,9 +15,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+const allowedOrigins = [process.env.FRONTEND_URL];
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // specify the allowed origin
+    origin: function (origin, callback) {
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
