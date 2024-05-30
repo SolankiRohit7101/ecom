@@ -16,9 +16,16 @@ const Nav = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     await axios
+<<<<<<< HEAD
       .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/logout`, {
         withCredentials: "include",
       })
+=======
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/logout` ,
+       { withCredentials: true }
+          
+          )
+>>>>>>> 44429b80e3953b3198a48b31f01826e0c16ace38
       .then(({ data }) => {
         dispatch(signupSuccess(data?.decode));
         toast.success(data?.message, {
