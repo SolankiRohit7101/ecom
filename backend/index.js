@@ -14,10 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-const allowedOrigins = [
-  'https://ecom-lemon-five.vercel.app',
-  'https://ecom-jkgn276va-roht7101s-projects.vercel.app'
-];
+const allowedOrigins = "*"
 
 const corsOptions = {
   origin: function (origin, callback) {
