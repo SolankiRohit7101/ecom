@@ -18,7 +18,15 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("/api/v1/contact", { ...contactData })
+      .post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/contact`,
+        {
+          ...contactData,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then(({ data }) => {
         toast.success(data?.message, {
           position: "top-center",
@@ -63,14 +71,14 @@ const Contact = () => {
               <div className="mb-3 w-full">
                 <label
                   className="block font-medium mb-[2px] text-teal-700"
-                  htmlFor="exampleInput90"
+                  htmlFor="name"
                 >
                   Name
                 </label>
                 <input
                   type="text"
                   className="px-2 py-2 border w-full outline-none rounded-md"
-                  id="exampleInput90"
+                  id="name"
                   name="name"
                   placeholder="Name"
                   onChange={handleChange}
@@ -80,14 +88,14 @@ const Contact = () => {
               <div className="mb-3 w-full">
                 <label
                   className="block font-medium mb-[2px] text-teal-700"
-                  htmlFor="exampleInput90"
+                  htmlFor="email"
                 >
                   Email
                 </label>
                 <input
                   type="email"
                   className="px-2 py-2 border w-full outline-none rounded-md"
-                  id="exampleInput90"
+                  id="email"
                   name="email"
                   placeholder="Enter your email address"
                   onChange={handleChange}
@@ -97,7 +105,7 @@ const Contact = () => {
               <div className="mb-3 w-full">
                 <label
                   className="block font-medium mb-[2px] text-teal-700"
-                  htmlFor="exampleInput90"
+                  htmlFor="message"
                 >
                   Message
                 </label>

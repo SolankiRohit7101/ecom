@@ -15,7 +15,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // specify the allowed origin
+    credentials: true,
+  })
+);
 
 dbConnect();
 
@@ -23,7 +28,7 @@ app.use("/api/v1/", userRouter);
 app.use("/api/v1/", ProductRouter);
 
 app.listen(process.env.PORT, () =>
-  console.log(`server running on http://Localhost:${process.env.PORT}`)
+  console.log(`server running on http://localhost:${process.env.PORT}`)
 );
 
 app.use(errorMiddleware);

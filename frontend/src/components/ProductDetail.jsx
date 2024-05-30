@@ -61,7 +61,7 @@ const ProductReviews = ({ id }) => {
   const [ratingId, setRatingId] = useState(0);
   const reviewsFetch = async () => {
     await axios
-      .get(`/api/v1/${id}`)
+      .getVITE_(`${import.meta.env.VITE_BACKEND_URL}/api/v1/${id}`)
       .then(({ data }) => {
         setAllReview(data.pr);
         toast.success(data?.message, {
@@ -96,7 +96,15 @@ const ProductReviews = ({ id }) => {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post(`/api/v1/comment/${id}`, { ...addReview })
+      .post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/comment/${id}`,
+        {
+          ...addReview,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then(() => reviewsFetch())
       .catch((err) => {
         toast.error(err.response.data?.message, {

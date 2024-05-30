@@ -30,9 +30,10 @@ const Profile = () => {
     const data = Object.fromEntries(formdata);
     await axios
       .post(
-        "api/v1/profile",
+        `${import.meta.env.VITE_BACKEND_URL}api/v1/profile`,
         { ...data },
         {
+          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
           },

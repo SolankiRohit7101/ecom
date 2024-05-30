@@ -34,7 +34,7 @@ const Signup = () => {
     const data = Object.fromEntries(formdata);
     await axios
       .post(
-        "/api/v1/register",
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/register`,
         { ...data },
         {
           headers: {
